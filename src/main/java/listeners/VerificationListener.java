@@ -1,5 +1,6 @@
 package listeners;
 
+import Utils.RandomColorGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -57,10 +58,11 @@ public class VerificationListener extends ListenerAdapter {
     }
 
     private void sendVerificationEmbed(TextChannel channel) {
+        Color randomColor = RandomColorGenerator.generateRandomColor();
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Verification")
                 .setDescription("Veuillez cliquer sur la réaction afin d'avoir votre rôle vérifié")
-                .setColor(Color.YELLOW);
+                .setColor(randomColor);
 
         channel.sendMessageEmbeds(embed.build()).queue(message -> {
             message.addReaction(Emoji.fromUnicode("✅")).queue(); // Utilisation de Emoji.fromUnicode pour ajouter la réaction
