@@ -48,6 +48,7 @@ public class demandeDeRoleListener extends ListenerAdapter {
         TextChannel sourceChannel = event.getJDA().getTextChannelById(sourceChannelId);
 
         if (sourceChannel != null) {
+            sourceChannel.purgeMessages(sourceChannel.getIterableHistory().complete());
             Color randomColor = RandomColorGenerator.generateRandomColor();
 
             EmbedBuilder embedBuilder = new EmbedBuilder()
