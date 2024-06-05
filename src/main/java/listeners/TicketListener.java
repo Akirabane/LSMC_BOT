@@ -1,5 +1,6 @@
 package listeners;
 
+import Utils.RandomColorGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -46,13 +47,14 @@ public class TicketListener  extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
+        Color randomColor = RandomColorGenerator.generateRandomColor();
         TextChannel channel = event.getJDA().getTextChannelById(channelTicketID);
         channel.purgeMessages(channel.getIterableHistory().complete());
             Button button = Button.primary("createTicket", "Créer un ticket");
             EmbedBuilder embedBuilder = new EmbedBuilder()
                     .setTitle("Créer un ticket")
                     .setDescription("Cliquez sur le bouton ci-dessous pour créer un ticket.")
-                    .setColor(Color.CYAN);
+                    .setColor(randomColor);
 
             channel.sendMessageEmbeds(embedBuilder.build())
                     .setActionRow(button)
