@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -69,8 +70,12 @@ public class VerificationListener extends ListenerAdapter {
     @Override
     public void onMessageReactionAdd(MessageReactionAddEvent event) {
         if (event.getChannel().getId().equals(channelId) && !event.getUser().isBot()) {
-
             Member member = event.getMember();
+
+            if(member.getRoles().contains(event.getGuild().getRoleById(roleCitoyenId))) {
+                return;
+            }
+
             if (member != null) {
                 Role roleNouveauVenu = event.getGuild().getRoleById(roleNouveauVenuId);
                 Role roleCitoyen = event.getGuild().getRoleById(roleCitoyenId);
@@ -97,6 +102,9 @@ public class VerificationListener extends ListenerAdapter {
         if (event.getChannel().getId().equals(channelId) && !event.getUser().isBot()) {
             Member member = event.getMember();
             if (member != null) {
+                if(!member.getRoles().contains(event.getGuild().getRoleById(roleCitoyenId))) {
+                    return;
+                }
                 Role roleNouveauVenu = event.getGuild().getRoleById(roleNouveauVenuId);
                 Role roleCitoyen = event.getGuild().getRoleById(roleCitoyenId);
 
