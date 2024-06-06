@@ -17,6 +17,7 @@ public class EventsManager extends ListenerAdapter {
             builder.addEventListeners(new demandeDeRoleListener());
             builder.addEventListeners(new NameRP());
             builder.addEventListeners(new slashCommands.Ping());
+            builder.addEventListeners(new slashCommands.Commits());
         }
 
 }

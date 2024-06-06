@@ -10,8 +10,9 @@ public class SlashCommandsManager {
     public static void registerCommands(JDA jda) {
         jda.updateCommands().addCommands(
                 createNameRPCommand(),
-                createPingCommand()
-        ).queue(); // Appel de la méthode queue() pour exécuter l'action
+                createPingCommand(),
+                createCommitsCommand()
+        ).queue();
     }
 
     private static CommandData createNameRPCommand() {
@@ -21,6 +22,11 @@ public class SlashCommandsManager {
 
     private static CommandData createPingCommand() {
         return Commands.slash("ping", "Répond Pong!");
+    }
+
+    private static CommandData createCommitsCommand() {
+        return Commands.slash("commits", "Affiche les 10 derniers commits du dépôt LSMC-BOT sur GitHub.")
+                .addOption(OptionType.STRING, "branch", "La branche du dépôt à consulter", false);
     }
 }
 
