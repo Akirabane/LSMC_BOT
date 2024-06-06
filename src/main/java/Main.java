@@ -1,10 +1,7 @@
 import events.EventsManager;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import slashCommands.SlashCommandsManager;
 
 import java.io.FileInputStream;
@@ -33,7 +30,6 @@ public class Main {
             JDABuilder jdaBuilder = JDABuilder.createDefault(TOKEN)
                     .enableIntents(EnumSet.allOf(GatewayIntent.class));
 
-            // Enregistrement des écouteurs d'événements
             EventsManager eventsManager = new EventsManager();
             eventsManager.registerAllListeners(jdaBuilder);
             SlashCommandsManager.registerCommands(jdaBuilder.build());

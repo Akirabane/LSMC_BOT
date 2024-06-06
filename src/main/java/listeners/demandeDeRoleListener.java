@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -21,7 +20,7 @@ public class demandeDeRoleListener extends ListenerAdapter {
     private String sourceChannelId;
     private String destinationChannelId;
     private String managerRoleId;
-
+    
     public demandeDeRoleListener() {
         Properties properties = new Properties();
         try {
@@ -66,7 +65,6 @@ public class demandeDeRoleListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        // Vérifie si le message provient du canal source
         if (event.getChannel().getId().equals(sourceChannelId) && !event.getAuthor().isBot()) {
             Message message = event.getMessage();
             Member member = event.getMember();

@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -22,7 +21,7 @@ import java.util.List;
 
 public class TicketListener  extends ListenerAdapter {
 
-    private String roleSupportID;
+    private String roleMembreDuPersonnelID;
     private String channelTicketID;
 
     public TicketListener() {
@@ -32,10 +31,10 @@ public class TicketListener  extends ListenerAdapter {
             properties.load(fis);
             fis.close();
 
-            this.roleSupportID = properties.getProperty("ROLE_SUPPORT_ID");
+            this.roleMembreDuPersonnelID = properties.getProperty("ROLE_MEMBRE_DU_PERSONNEL_ID");
             this.channelTicketID = properties.getProperty("CHANNEL_TICKET_ID");
 
-            if (roleSupportID == null) {
+            if (roleMembreDuPersonnelID == null) {
                 throw new IllegalArgumentException("L'IDs du rôle et du cannal doivent être définis dans config.properties");
             }
 
@@ -86,7 +85,19 @@ public class TicketListener  extends ListenerAdapter {
                     guild.createTextChannel(ticketName)
                             .setParent(category)
                             .queue(channel -> {
-                                channel.sendMessage(member.getAsMention() + ", votre ticket a été créé.").queue();
+                                String membrePersonnel = "<@&" + this.roleMembreDuPersonnelID + ">";
+                                channel.sendMessage("Un " + membrePersonnel + " va bientôt s'occuper de vous " + member.getAsMention() + ", merci de patienter.")
+                                        .queue();
+                                EmbedBuilder ticketEmbed = new EmbedBuilder()
+                                        .setTitle("Ticket")
+                                        .setDescription(member.getAsMention() + ", votre ticket a été créé.")
+                                        .setColor(RandomColorGenerator.generateRandomColor());
+
+                                Button closeButton = Button.danger("closeTicket", "Clore le ticket");
+
+                                channel.sendMessageEmbeds(ticketEmbed.build())
+                                        .setActionRow(closeButton)
+                                        .queue();
 
                                 channel.getManager().putMemberPermissionOverride(
                                                 member.getIdLong(),
@@ -96,11 +107,22 @@ public class TicketListener  extends ListenerAdapter {
                                                 null)
                                         .queue();
 
-                                event.getHook().sendMessage("Votre ticket a été créé dans le canal " + channel.getAsMention() + ".").setEphemeral(true).queue();
+                                event.getHook().sendMessage("Votre ticket a été créé dans le canal " + channel.getAsMention() + ".")
+                                        .setEphemeral(true)
+                                        .queue();
                             });
                 } else {
                     event.getHook().sendMessage("Une erreur est survenue lors de la création du ticket.").setEphemeral(true).queue();
                 }
+            }
+        } else if (event.getComponentId().equals("closeTicket")) {
+            event.deferReply(true).queue();
+            Member member = event.getMember();
+            if(member != null && member.getRoles().stream().anyMatch(role -> role.getId().equals(this.roleMembreDuPersonnelID))) {
+                TextChannel channel = (TextChannel) event.getChannel();
+                channel.delete().queue();
+            } else {
+                event.getHook().sendMessage("Vous n'avez pas la permission de clore ce ticket.").setEphemeral(true).queue();
             }
         }
     }
