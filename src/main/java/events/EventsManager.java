@@ -1,5 +1,6 @@
 package events;
 
+import Utils.CanalChat;
 import listeners.TicketListener;
 import listeners.VerificationListener;
 import listeners.demandeDeRoleListener;
@@ -18,6 +19,7 @@ public class EventsManager extends ListenerAdapter {
             builder.addEventListeners(new NameRP());
             builder.addEventListeners(new slashCommands.Ping());
             builder.addEventListeners(new slashCommands.Commits());
+            builder.addEventListeners(new CanalChat());
         }
 
 }
