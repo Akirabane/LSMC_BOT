@@ -76,7 +76,10 @@ public class Commits extends ListenerAdapter {
                 }
 
                 event.replyEmbeds(embedBuilder.build()).queue(
-                        response -> response.deleteOriginal().queueAfter(30, TimeUnit.SECONDS)
+                        response -> response.deleteOriginal().queueAfter(30, TimeUnit.SECONDS,
+                                success -> System.out.println("Message supprimé avec succès."),
+                                failure -> System.out.println("Erreur lors de la suppression du message, message déjà supprimé.")
+                        )
                 );
             } catch (IOException e) {
                 event.reply("Erreur lors de la récupération des commits : " + e.getMessage()).setEphemeral(true).queue();
