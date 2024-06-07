@@ -16,9 +16,9 @@ public class NameRP extends ListenerAdapter {
                         success -> {
                             event.reply("Demande envoyée à " + targetUser.getAsTag() + " avec succès.").setEphemeral(true).queue();
                         },
-                        throwable -> {
-                            if (throwable instanceof ErrorResponseException) {
-                                ErrorResponseException errorResponse = (ErrorResponseException) throwable;
+                        error -> {
+                            if (error instanceof ErrorResponseException) {
+                                ErrorResponseException errorResponse = (ErrorResponseException) error;
                                 if (errorResponse.getErrorCode() == 50007) {
                                     event.reply(targetUser.getAsMention() + " a bloqué ses MP ou le bot. Impossible d'envoyer un message privé.").queue();
                                 } else {

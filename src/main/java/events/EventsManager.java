@@ -20,6 +20,7 @@ public class EventsManager extends ListenerAdapter {
             builder.addEventListeners(new slashCommands.Ping());
             builder.addEventListeners(new slashCommands.Commits());
             builder.addEventListeners(new CanalChat());
+            builder.addEventListeners(new slashCommands.addEmployee());
         }
 
 }

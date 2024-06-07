@@ -36,6 +36,9 @@ public class CanalChat extends ListenerAdapter {
     public void onReady(ReadyEvent event) {
         Color randomColor = RandomColorGenerator.generateRandomColor();
         TextChannel channel = event.getJDA().getTextChannelById(channelChatRobotId);
+
+        channel.purgeMessages(channel.getIterableHistory().complete());
+
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Message du BOT LSMC.")
                 .setDescription("Je suis heureux de pouvoir répondre à vos questions et de vous aider. Utilisez la commande /help pour voir la liste des commandes disponibles.")

@@ -11,7 +11,8 @@ public class SlashCommandsManager {
         jda.updateCommands().addCommands(
                 createNameRPCommand(),
                 createPingCommand(),
-                createCommitsCommand()
+                createCommitsCommand(),
+                createAddEmployeeCommand()
         ).queue();
     }
 
@@ -27,6 +28,11 @@ public class SlashCommandsManager {
     private static CommandData createCommitsCommand() {
         return Commands.slash("commits", "Affiche les 10 derniers commits du dépôt LSMC-BOT sur GitHub.")
                 .addOption(OptionType.STRING, "branch", "La branche du dépôt à consulter", false);
+    }
+
+    private static CommandData createAddEmployeeCommand() {
+        return Commands.slash("addemployee", "Ajoute un employé à la base de données.")
+                .addOption(OptionType.USER, "user", "L'utilisateur à ajouter", true);
     }
 }
 
