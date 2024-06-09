@@ -1,10 +1,12 @@
 package slashCommands;
+import annotations.CommandsDescription;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+@CommandsDescription("Envoie un message privé à un utilisateur pour lui demander de changer son pseudo Discord en utilisant son nom et prénom RP.")
 public class NameRP extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {

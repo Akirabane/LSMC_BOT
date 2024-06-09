@@ -1,10 +1,12 @@
 package slashCommands;
 
+import annotations.CommandsDescription;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.TimeUnit;
 
+@CommandsDescription("Renvoie le temps de réponse du bot.")
 public class Ping extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {

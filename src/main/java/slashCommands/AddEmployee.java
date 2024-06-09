@@ -1,10 +1,12 @@
 package slashCommands;
 
 import Services.UserService;
+import annotations.CommandsDescription;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+@CommandsDescription("Ajoute un employé à la base de données.")
 public class AddEmployee extends ListenerAdapter {
 
     private final UserService userService;

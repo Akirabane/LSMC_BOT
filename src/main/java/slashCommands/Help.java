@@ -69,12 +69,12 @@ public class Help extends ListenerAdapter {
         if (componentId.equals("help_about_bot")) {
             responseEmbed.setTitle("Qu'est-ce que LSMC_Bot ?")
                     .setDescription("LSMC_Bot est un bot Discord conçu pour faciliter la gestion et l'interaction dans le serveur LSMC.")
-                    .setColor(Color.GREEN);
+                    .setColor(randomColor);
 
             event.replyEmbeds(responseEmbed.build()).setEphemeral(true).queue();
         } else if (componentId.equals("help_commands_info")) {
             responseEmbed.setTitle("Commandes disponibles")
-                    .setColor(Color.YELLOW);
+                    .setColor(randomColor);
 
             Reflections reflections = new Reflections("slashCommands");
             Set<Class<? extends ListenerAdapter>> classes = reflections.getSubTypesOf(ListenerAdapter.class);

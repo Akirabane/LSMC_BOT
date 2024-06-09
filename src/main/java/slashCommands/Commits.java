@@ -1,6 +1,7 @@
 package slashCommands;
 
 import Utils.RandomColorGenerator;
+import annotations.CommandsDescription;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+@CommandsDescription("Récupère les derniers commits d'une branche donnée.")
 public class Commits extends ListenerAdapter {
 
     private String githubRepo;
