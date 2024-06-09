@@ -64,7 +64,7 @@ public class Commits extends ListenerAdapter {
                         .setTitle("Derniers commits de la branche " + branch)
                         .setColor(randomColor);
 
-                for (int i = 0; i < Math.min(10, commitsArray.length()); i++) {
+                for (int i = Math.min(10, commitsArray.length()) - 1; i >= 0; i--) {
                     JSONObject commit = commitsArray.getJSONObject(i);
                     String message = commit.getJSONObject("commit").getString("message");
                     String author = commit.getJSONObject("commit").getJSONObject("author").getString("name");
@@ -76,6 +76,7 @@ public class Commits extends ListenerAdapter {
 
                     embedBuilder.addField(sha.substring(0, 7) + " - " + author + " - " + formattedDate, message, false);
                 }
+
 
                 event.replyEmbeds(embedBuilder.build()).queue(
                         response -> response.deleteOriginal().queueAfter(30, TimeUnit.SECONDS,
