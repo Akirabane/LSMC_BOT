@@ -18,7 +18,7 @@ public class ButtonInteractionManager extends ListenerAdapter {
             TicketListener.handleButtonInteraction(event);
         } else {
             event.deferReply(true).setEphemeral(true).queue();
-            event.getHook().sendMessage("Commande inconnue.").queue();
+            event.getHook().sendMessage("Ce bouton ne fonctionne pas.").queue();
         }
     }
 }

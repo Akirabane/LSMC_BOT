@@ -15,13 +15,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class demandeDeRoleListener extends ListenerAdapter {
+public class DemandeDeRoleListener extends ListenerAdapter {
 
     private String sourceChannelId;
     private String destinationChannelId;
     private String managerRoleId;
     
-    public demandeDeRoleListener() {
+    public DemandeDeRoleListener() {
         Properties properties = new Properties();
         try {
             FileInputStream fis = new FileInputStream("src/main/resources/config.properties");

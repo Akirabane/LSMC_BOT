@@ -77,6 +77,13 @@ public class TicketListener extends ListenerAdapter {
         Guild guild = event.getGuild();
 
         if (member != null && guild != null) {
+
+            if(member == null || guild == null) {
+                event.deferReply(true).setEphemeral(true).queue();
+                event.getHook().sendMessage("Une erreur est survenue lors de la gestion de votre demande.").queue();
+                return;
+            }
+
             String componentId = event.getComponentId();
             if (componentId.equals("ticket_generalAsking") || componentId.equals("ticket_recrutementAsking")) {
                 if (!event.getChannel().getId().equals(channelTicketID)) {
@@ -92,8 +99,14 @@ public class TicketListener extends ListenerAdapter {
                         createTicket(event, member, guild, recrutementCategory, "recrutement-", "Recrutement");
                         break;
                 }
-            } else if (componentId.equals("ticket_closeTicket")) {
-                closeTicket(event, member);
+            } else if (event.getComponentId().equals("ticket_closeTicket")) {
+                event.deferReply(true).queue();
+                if(member.getRoles().stream().anyMatch(role -> role.getId().equals(roleMembreDuPersonnelID))) {
+                    TextChannel channel = (TextChannel) event.getChannel();
+                    channel.delete().queue();
+                } else {
+                    event.getHook().sendMessage("Vous n'avez pas la permission de clore ce ticket.").setEphemeral(true).queue();
+                }
             } else {
                 event.deferReply(true).setEphemeral(true).queue();
                 event.getHook().sendMessage("Commande inconnue.").queue();
@@ -140,7 +153,6 @@ public class TicketListener extends ListenerAdapter {
                                     null)
                             .queue();
 
-                    // Enregistrez l'ID du canal dans la carte des tickets
                     ticketChannelMap.put(channel.getId(), member.getId());
 
                     event.deferReply(true).setEphemeral(true).queue();

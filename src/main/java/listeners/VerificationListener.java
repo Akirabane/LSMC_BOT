@@ -64,7 +64,7 @@ public class VerificationListener extends ListenerAdapter {
                 .setColor(randomColor);
 
         channel.sendMessageEmbeds(embed.build()).queue(message -> {
-            message.addReaction(Emoji.fromUnicode("✅")).queue(); // Utilisation de Emoji.fromUnicode pour ajouter la réaction
+            message.addReaction(Emoji.fromUnicode("✅")).queue();
         });
     }
 

@@ -1,10 +1,9 @@
 package Utils;
 
-import Utils.CanalChat;
 import events.GuildMemberJoinListener;
 import listeners.TicketListener;
 import listeners.VerificationListener;
-import listeners.demandeDeRoleListener;
+import listeners.DemandeDeRoleListener;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import slashCommands.*;
@@ -19,7 +18,7 @@ public class EventsManager extends ListenerAdapter {
             //Listeners
             builder.addEventListeners(new VerificationListener());
             builder.addEventListeners(new TicketListener());
-            builder.addEventListeners(new demandeDeRoleListener());
+            builder.addEventListeners(new DemandeDeRoleListener());
             builder.addEventListeners(new CanalChat());
 
             //Utils
