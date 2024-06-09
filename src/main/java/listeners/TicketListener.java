@@ -18,13 +18,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TicketListener extends ListenerAdapter {
 
-    private String roleMembreDuPersonnelID;
-    private String channelTicketID;
-    private String generalAskingID;
-    private String recrutementAskingID;
+    private static String roleMembreDuPersonnelID;
+    private static String channelTicketID;
+    private static String generalAskingID;
+    private static String recrutementAskingID;
+    private static final Map<String, String> ticketChannelMap = new ConcurrentHashMap<>();
 
     public TicketListener() {
         Properties properties = new Properties();
@@ -55,8 +57,8 @@ public class TicketListener extends ListenerAdapter {
         if (channel != null) {
             channel.purgeMessages(channel.getIterableHistory().complete());
 
-            Button generalAskingButton = Button.primary("generalAsking", "Demande générale");
-            Button recrutementButton = Button.danger("recrutementAsking", "Rejoindre le LSMC");
+            Button generalAskingButton = Button.primary("ticket_generalAsking", "Demande générale");
+            Button recrutementButton = Button.danger("ticket_recrutementAsking", "Rejoindre le LSMC");
             EmbedBuilder embedBuilder = new EmbedBuilder()
                     .setTitle("Système de ticket du LSMC.")
                     .setDescription("Veuillez retrouver ci-dessous les différents types de demandes via ticket disponibles.")
@@ -70,28 +72,31 @@ public class TicketListener extends ListenerAdapter {
         }
     }
 
-    @Override
-    public void onButtonInteraction(ButtonInteractionEvent event) {
+    public static void handleButtonInteraction(@NotNull ButtonInteractionEvent event) {
         Member member = event.getMember();
         Guild guild = event.getGuild();
 
         if (member != null && guild != null) {
-            switch (event.getComponentId()) {
-                case "generalAsking":
-                    Category generalCategory = guild.getCategoryById(generalAskingID);
-                    createTicket(event, member, guild, generalCategory, "ticket-", "Ticket");
-                    break;
-                case "recrutementAsking":
-                    Category recrutementCategory = guild.getCategoryById(recrutementAskingID);
-                    createTicket(event, member, guild, recrutementCategory, "recrutement-", "Recrutement");
-                    break;
-                case "closeTicket":
-                    closeTicket(event, member);
-                    break;
-                default:
-                    event.deferReply(true).setEphemeral(true).queue();
-                    event.getHook().sendMessage("Commande inconnue.").queue();
-                    break;
+            String componentId = event.getComponentId();
+            if (componentId.equals("ticket_generalAsking") || componentId.equals("ticket_recrutementAsking")) {
+                if (!event.getChannel().getId().equals(channelTicketID)) {
+                    return;
+                }
+                switch (componentId) {
+                    case "ticket_generalAsking":
+                        Category generalCategory = guild.getCategoryById(generalAskingID);
+                        createTicket(event, member, guild, generalCategory, "ticket-", "Ticket");
+                        break;
+                    case "ticket_recrutementAsking":
+                        Category recrutementCategory = guild.getCategoryById(recrutementAskingID);
+                        createTicket(event, member, guild, recrutementCategory, "recrutement-", "Recrutement");
+                        break;
+                }
+            } else if (componentId.equals("ticket_closeTicket")) {
+                closeTicket(event, member);
+            } else {
+                event.deferReply(true).setEphemeral(true).queue();
+                event.getHook().sendMessage("Commande inconnue.").queue();
             }
         } else {
             event.deferReply(true).setEphemeral(true).queue();
@@ -99,7 +104,7 @@ public class TicketListener extends ListenerAdapter {
         }
     }
 
-    private void createTicket(ButtonInteractionEvent event, Member member, Guild guild, Category category, String ticketPrefix, String ticketTitle) {
+    private static void createTicket(ButtonInteractionEvent event, Member member, Guild guild, Category category, String ticketPrefix, String ticketTitle) {
         List<TextChannel> ticketChannels = category.getTextChannels();
         Optional<Integer> maxTicketNumber = ticketChannels.stream()
                 .map(channel -> channel.getName().replace(ticketPrefix, ""))
@@ -113,7 +118,7 @@ public class TicketListener extends ListenerAdapter {
         guild.createTextChannel(ticketName)
                 .setParent(category)
                 .queue(channel -> {
-                    String membrePersonnel = "<@&" + this.roleMembreDuPersonnelID + ">";
+                    String membrePersonnel = "<@&" + roleMembreDuPersonnelID + ">";
                     channel.sendMessage("Un " + membrePersonnel + " va bientôt s'occuper de vous " + member.getAsMention() + ", merci de patienter.")
                             .queue();
                     EmbedBuilder ticketEmbed = new EmbedBuilder()
@@ -121,7 +126,7 @@ public class TicketListener extends ListenerAdapter {
                             .setDescription(member.getAsMention() + ", votre ticket a été créé.")
                             .setColor(RandomColorGenerator.generateRandomColor());
 
-                    Button closeButton = Button.danger("closeTicket", "Clore le ticket");
+                    Button closeButton = Button.danger("ticket_closeTicket", "Clore le ticket");
 
                     channel.sendMessageEmbeds(ticketEmbed.build())
                             .setActionRow(closeButton)
@@ -135,15 +140,20 @@ public class TicketListener extends ListenerAdapter {
                                     null)
                             .queue();
 
+                    // Enregistrez l'ID du canal dans la carte des tickets
+                    ticketChannelMap.put(channel.getId(), member.getId());
+
                     event.deferReply(true).setEphemeral(true).queue();
                     event.getHook().sendMessage("Votre ticket a été créé dans le canal " + channel.getAsMention() + ".")
                             .queue();
                 });
     }
 
-    private void closeTicket(ButtonInteractionEvent event, Member member) {
-        if (member.getRoles().stream().anyMatch(role -> role.getId().equals(this.roleMembreDuPersonnelID))) {
-            TextChannel channel = (TextChannel) event.getChannel();
+    private static void closeTicket(ButtonInteractionEvent event, Member member) {
+        TextChannel channel = (TextChannel) event.getChannel();
+        String memberId = ticketChannelMap.get(channel.getId());
+
+        if (member.getRoles().stream().anyMatch(role -> role.getId().equals(roleMembreDuPersonnelID)) || member.getId().equals(memberId)) {
             event.deferReply(true).setEphemeral(true).queue();
             channel.delete().queue();
         } else {

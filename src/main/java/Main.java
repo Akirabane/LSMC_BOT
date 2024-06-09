@@ -1,8 +1,8 @@
-import events.EventsManager;
+import Utils.EventsManager;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import slashCommands.SlashCommandsManager;
+import Utils.SlashCommandsManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;

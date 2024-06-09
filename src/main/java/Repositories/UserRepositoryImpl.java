@@ -1,6 +1,6 @@
 package Repositories;
 
-import DAO.DatabaseManager;
+import Utils.DatabaseManager;
 import Entities.User;
 
 import java.sql.*;

@@ -1,22 +1,21 @@
 package slashCommands;
 
 import Services.UserService;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public class addEmployee extends ListenerAdapter {
+public class AddEmployee extends ListenerAdapter {
 
     private final UserService userService;
 
-    public addEmployee() {
+    public AddEmployee() {
         this.userService = new UserService();
     }
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (event.getName().equalsIgnoreCase("addEmployee")) {
+        if (event.getName().equalsIgnoreCase("AddEmployee")) {
             String targetUserName = event.getOption("user").getAsMember().getEffectiveName();
             long targetUserId = event.getOption("user").getAsMember().getIdLong();
 

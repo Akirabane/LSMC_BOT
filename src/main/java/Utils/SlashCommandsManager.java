@@ -1,4 +1,4 @@
-package slashCommands;
+package Utils;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -9,11 +9,16 @@ public class SlashCommandsManager {
 
     public static void registerCommands(JDA jda) {
         jda.updateCommands().addCommands(
+                createHelpCommand(),
                 createNameRPCommand(),
                 createPingCommand(),
                 createCommitsCommand(),
                 createAddEmployeeCommand()
         ).queue();
+    }
+
+    private static CommandData createHelpCommand() {
+        return Commands.slash("help", "Affiche un embed pour obtenir plus d'informations.");
     }
 
     private static CommandData createNameRPCommand() {
