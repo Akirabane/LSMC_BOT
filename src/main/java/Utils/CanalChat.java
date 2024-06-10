@@ -41,7 +41,7 @@ public class CanalChat extends ListenerAdapter {
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setTitle("Message du BOT LSMC.")
-                .setDescription("Je suis heureux de pouvoir répondre à vos questions et de vous aider. Utilisez la commande /help pour voir la liste des commandes disponibles.")
+                .setDescription("Je suis heureux de pouvoir répondre à vos questions et de vous aider. Utilisez la commande /help afin d'optenir des informations sur les commandes disponibles.")
                 .setColor(randomColor);
 
         channel.sendMessageEmbeds(embed.build()).queue();
