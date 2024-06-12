@@ -8,6 +8,7 @@ public interface UserRepository {
     User getUserById(int id);
     User getUserByUserId(long id);
     List<User> getAllUsers();
-    void updateUser(User user);
+    void updateNameOfUser(User user);
+    void updateRankOfUser(User user);
     void deleteUser(long user_id);
 }

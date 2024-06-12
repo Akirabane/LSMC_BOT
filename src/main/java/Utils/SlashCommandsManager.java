@@ -15,7 +15,9 @@ public class SlashCommandsManager {
                 createCommitsCommand(),
                 createAddEmployeeCommand(),
                 createRemoveEmployeeCommand(),
-                createListEmployeesCommand()
+                createListEmployeesCommand(),
+                createUpdateNameOfUserCommand(),
+                createUpdateRankOfUserCommand()
         ).queue();
     }
 
@@ -49,6 +51,18 @@ public class SlashCommandsManager {
 
     private static CommandData createListEmployeesCommand() {
         return Commands.slash("listemployees", "Affiche la liste des employés enregistrés dans la base de données.");
+    }
+
+    private static CommandData createUpdateNameOfUserCommand() {
+        return Commands.slash("updatenameofuser", "Met à jour le nom d'un employé")
+                .addOption(OptionType.USER, "user", "L'utilisateur à mettre à jour", true)
+                .addOption(OptionType.STRING, "newname", "Le nouveau nom de l'utilisateur", true);
+    }
+
+    private static CommandData createUpdateRankOfUserCommand() {
+        return Commands.slash("updaterankofuser", "Met à jour le rang d'un employé")
+                .addOption(OptionType.USER, "user", "L'utilisateur à mettre à jour", true)
+                .addOption(OptionType.STRING, "newrank", "Le nouveau rang de l'utilisateur", true);
     }
 }
 

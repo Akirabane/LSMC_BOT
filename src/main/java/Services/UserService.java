@@ -26,9 +26,14 @@ public class UserService {
         return userRepository.getUserByUserId(user_id);
     }
 
-    public void updateUser(int id, String username) {
-        User user = new User(id, username);
-        userRepository.updateUser(user);
+    public void updateNameOfUser(long user_id, String username) {
+        User user = new User(user_id, username);
+        userRepository.updateNameOfUser(user);
+    }
+
+    public void updateRankOfUser(long user_id, String username) {
+        User user = new User(user_id, username);
+        userRepository.updateRankOfUser(user);
     }
 
     public void deleteUser(long user_id) {

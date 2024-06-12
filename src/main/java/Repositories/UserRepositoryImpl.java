@@ -78,13 +78,27 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void updateUser(User user) {
-        String query = "UPDATE users SET username = ? WHERE id = ?";
+    public void updateNameOfUser(User user) {
+        String query = "UPDATE users SET username = ? WHERE user_id = ?";
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, user.getUsername());
-            statement.setInt(2, user.getId());
+            statement.setLong(2, user.getUserId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateRankOfUser(User user) {
+        String query = "UPDATE users SET grade = ? WHERE user_id = ?";
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, user.getGrade());
+            statement.setLong(2, user.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

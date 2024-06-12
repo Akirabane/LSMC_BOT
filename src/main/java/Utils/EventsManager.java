@@ -32,6 +32,8 @@ public class EventsManager extends ListenerAdapter {
             builder.addEventListeners(new AddEmployee());
             builder.addEventListeners(new RemoveEmployee());
             builder.addEventListeners(new ListEmployees());
+            builder.addEventListeners(new UpdateEmployeeName());
+            builder.addEventListeners(new UpdateEmployeeRank());
         }
 
 }
