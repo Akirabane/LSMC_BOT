@@ -14,7 +14,8 @@ public class SlashCommandsManager {
                 createPingCommand(),
                 createCommitsCommand(),
                 createAddEmployeeCommand(),
-                createRemoveEmployeeCommand()
+                createRemoveEmployeeCommand(),
+                createListEmployeesCommand()
         ).queue();
     }
 
@@ -44,6 +45,10 @@ public class SlashCommandsManager {
     private static CommandData createRemoveEmployeeCommand() {
         return Commands.slash("removeemployee", "Retire un employé de la base de données.")
                 .addOption(OptionType.USER, "user", "L'utilisateur à retirer", true);
+    }
+
+    private static CommandData createListEmployeesCommand() {
+        return Commands.slash("listemployees", "Affiche la liste des employés enregistrés dans la base de données.");
     }
 }
 

@@ -4,6 +4,8 @@ import Entities.User;
 import Repositories.UserRepository;
 import Repositories.UserRepositoryImpl;
 
+import java.util.List;
+
 public class UserService {
     private final UserRepository userRepository;
 
@@ -33,7 +35,7 @@ public class UserService {
         userRepository.deleteUser(user_id);
     }
 
-    public void getAllUsers() {
-        userRepository.getAllUsers();
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 }

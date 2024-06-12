@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-@CommandsDescription("Retire un employé à la base de données.")
+@CommandsDescription("Retire un employé de la base de données.")
 public class RemoveEmployee extends ListenerAdapter {
 
     private final UserService userService;

@@ -68,7 +68,8 @@ public class UserRepositoryImpl implements UserRepository {
 
             while (resultSet.next()) {
                 users.add(new User(resultSet.getInt("id"),
-                        resultSet.getString("username")));
+                        resultSet.getString("username"),
+                        resultSet.getString("grade")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

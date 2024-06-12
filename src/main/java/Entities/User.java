@@ -3,6 +3,7 @@ public class User {
     private int id;
     private String username;
     private long userId;
+    private String grade;
 
     public long getUserId() {
         return userId;
@@ -15,6 +16,12 @@ public class User {
     public User(long userId, String username) {
         this.userId = userId;
         this.username = username;
+    }
+
+    public User(long userId, String username, String grade) {
+        this.userId = userId;
+        this.username = username;
+        this.grade = grade;
     }
 
     public int getId() {
@@ -31,5 +38,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }
