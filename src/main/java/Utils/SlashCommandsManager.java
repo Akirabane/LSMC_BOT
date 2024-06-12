@@ -13,7 +13,8 @@ public class SlashCommandsManager {
                 createNameRPCommand(),
                 createPingCommand(),
                 createCommitsCommand(),
-                createAddEmployeeCommand()
+                createAddEmployeeCommand(),
+                createRemoveEmployeeCommand()
         ).queue();
     }
 
@@ -38,6 +39,11 @@ public class SlashCommandsManager {
     private static CommandData createAddEmployeeCommand() {
         return Commands.slash("addemployee", "Ajoute un employé à la base de données.")
                 .addOption(OptionType.USER, "user", "L'utilisateur à ajouter", true);
+    }
+
+    private static CommandData createRemoveEmployeeCommand() {
+        return Commands.slash("removeemployee", "Retire un employé de la base de données.")
+                .addOption(OptionType.USER, "user", "L'utilisateur à retirer", true);
     }
 }
 

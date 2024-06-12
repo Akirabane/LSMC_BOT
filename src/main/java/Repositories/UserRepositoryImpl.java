@@ -42,7 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserByUserId(long id) {
-        String query = "SELECT * FROM users WHERE id = ?";
+        String query = "SELECT * FROM users WHERE user_id = ?";
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -91,12 +91,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteUser(int id) {
-        String query = "DELETE FROM users WHERE id = ?";
+    public void deleteUser(long user_id) {
+        String query = "DELETE FROM users WHERE user_id = ?";
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setInt(1, id);
+            statement.setLong(1, user_id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

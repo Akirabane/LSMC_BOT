@@ -20,8 +20,8 @@ public class UserService {
         return userRepository.getUserById(id);
     }
 
-    public User getUserByUserId(long id) {
-        return userRepository.getUserByUserId(id);
+    public User getUserByUserId(long user_id) {
+        return userRepository.getUserByUserId(user_id);
     }
 
     public void updateUser(int id, String username) {
@@ -29,8 +29,8 @@ public class UserService {
         userRepository.updateUser(user);
     }
 
-    public void deleteUser(int id) {
-        userRepository.deleteUser(id);
+    public void deleteUser(long user_id) {
+        userRepository.deleteUser(user_id);
     }
 
     public void getAllUsers() {

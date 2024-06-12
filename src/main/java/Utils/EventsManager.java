@@ -30,6 +30,7 @@ public class EventsManager extends ListenerAdapter {
             builder.addEventListeners(new Ping());
             builder.addEventListeners(new Commits());
             builder.addEventListeners(new AddEmployee());
+            builder.addEventListeners(new RemoveEmployee());
         }
 
 }

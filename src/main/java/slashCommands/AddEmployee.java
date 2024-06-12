@@ -21,8 +21,8 @@ public class AddEmployee extends ListenerAdapter {
             String targetUserName = event.getOption("user").getAsMember().getEffectiveName();
             long targetUserId = event.getOption("user").getAsMember().getIdLong();
 
-            if (userService.getUserByUserId(event.getMember().getIdLong()) != null) {
-                event.reply("Vous êtes déjà enregistré dans la base de données.").setEphemeral(true).queue();
+            if (userService.getUserByUserId(targetUserId) != null) {
+                event.reply(targetUserName + " est déjà enregistré dans la base de données.").setEphemeral(true).queue();
             } else {
                 userService.addUser(targetUserId, targetUserName);
                 event.reply("Employé ajouté avec succès.").setEphemeral(true).queue();
