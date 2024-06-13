@@ -1,4 +1,4 @@
-package slashCommands;
+package slashCommands.lsmcStaff;
 
 import Entities.User;
 import Services.UserService;
@@ -22,7 +22,7 @@ public class ListEmployees extends ListenerAdapter {
             StringBuilder usersList = new StringBuilder();
 
             for (User user : users) {
-                usersList.append(user.getUsername() + " ->  grade : " + user.getGrade()).append("\n");
+                usersList.append(user.getUsername() + " ->  grade_rp : " + user.getGradeRp()).append("\n");
             }
             event.reply("Liste des employés :\n" + usersList).setEphemeral(true).queue();
 

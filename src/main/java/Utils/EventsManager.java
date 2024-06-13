@@ -6,7 +6,11 @@ import listeners.VerificationListener;
 import listeners.DemandeDeRoleListener;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import slashCommands.*;
+import slashCommands.discordStaff.NameRP;
+import slashCommands.lsmcStaff.*;
+import slashCommands.users.Commits;
+import slashCommands.users.Help;
+import slashCommands.users.Ping;
 
 public class EventsManager extends ListenerAdapter {
 

@@ -1,4 +1,4 @@
-package slashCommands;
+package slashCommands.lsmcStaff;
 
 import Services.UserService;
 import annotations.CommandsDescription;

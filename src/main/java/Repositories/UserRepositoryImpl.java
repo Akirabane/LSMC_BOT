@@ -69,7 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
             while (resultSet.next()) {
                 users.add(new User(resultSet.getInt("id"),
                         resultSet.getString("username"),
-                        resultSet.getString("grade")));
+                        resultSet.getString("grade_rp")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void updateNameOfUser(User user) {
+    public void updateNameOfEmployee(User user) {
         String query = "UPDATE users SET username = ? WHERE user_id = ?";
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -92,12 +92,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void updateRankOfUser(User user) {
-        String query = "UPDATE users SET grade = ? WHERE user_id = ?";
+    public void updateRankOfEmployee(User user) {
+        String query = "UPDATE users SET grade_rp = ? WHERE user_id = ?";
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, user.getGrade());
+            statement.setString(1, user.getGradeRp());
             statement.setLong(2, user.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {

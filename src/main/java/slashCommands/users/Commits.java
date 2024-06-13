@@ -1,4 +1,4 @@
-package slashCommands;
+package slashCommands.users;
 
 import Utils.RandomColorGenerator;
 import annotations.CommandsDescription;

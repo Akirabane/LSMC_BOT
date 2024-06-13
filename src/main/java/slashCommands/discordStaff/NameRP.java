@@ -1,4 +1,4 @@
-package slashCommands;
+package slashCommands.discordStaff;
 import annotations.CommandsDescription;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

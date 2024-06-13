@@ -13,9 +13,8 @@ public class UserService {
         this.userRepository = new UserRepositoryImpl();
     }
 
-    public void addUser(long userId, String username) {
-        User user = new User(userId, username);
-        userRepository.saveUser(user);
+    public void addUser(long user_id, String username) {
+        userRepository.saveUser(new User(user_id, username));
     }
 
     public User getUserById(int id) {
@@ -26,14 +25,12 @@ public class UserService {
         return userRepository.getUserByUserId(user_id);
     }
 
-    public void updateNameOfUser(long user_id, String username) {
-        User user = new User(user_id, username);
-        userRepository.updateNameOfUser(user);
+    public void updateNameOfEmployee(long user_id, String username) {
+        userRepository.updateNameOfEmployee(new User(user_id, username));
     }
 
-    public void updateRankOfUser(long user_id, String username) {
-        User user = new User(user_id, username);
-        userRepository.updateRankOfUser(user);
+    public void updateRankOfEmployee(String grade_rp, long user_id) {
+        userRepository.updateRankOfEmployee(new User(grade_rp, user_id));
     }
 
     public void deleteUser(long user_id) {

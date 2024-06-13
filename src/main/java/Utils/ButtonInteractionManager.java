@@ -4,7 +4,7 @@ import listeners.TicketListener;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-import slashCommands.Help;
+import slashCommands.users.Help;
 
 public class ButtonInteractionManager extends ListenerAdapter {
 
