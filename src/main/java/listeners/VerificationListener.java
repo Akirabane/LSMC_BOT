@@ -1,5 +1,6 @@
 package listeners;
 
+import Services.UserService;
 import Utils.RandomColorGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -26,7 +27,10 @@ public class VerificationListener extends ListenerAdapter {
     private String roleNouveauVenuId;
     private String roleCitoyenId;
 
+    private final UserService userService;
+
     public VerificationListener() {
+        this.userService = new UserService();
         Properties properties = new Properties();
         try {
             FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
@@ -90,6 +94,8 @@ public class VerificationListener extends ListenerAdapter {
                 } else {
                     System.out.println("Rôle non trouvé : " + roleNouveauVenuId + " ou " + roleCitoyenId);
                 }
+
+                userService.addUser(member.getIdLong(), member.getEffectiveName());
 
                 event.getMember().getUser().openPrivateChannel().queue(privateChannel -> {
                     privateChannel.sendMessage("Votre rôle a été vérifié.").queue();

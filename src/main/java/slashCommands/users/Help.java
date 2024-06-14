@@ -1,5 +1,7 @@
 package slashCommands.users;
 
+import Entities.User;
+import Services.UserService;
 import Utils.RandomColorGenerator;
 import annotations.CommandsDescription;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -13,6 +15,7 @@ import org.reflections.Reflections;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -43,6 +46,20 @@ public class Help extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getName().equalsIgnoreCase("help")) {
+
+            UserService userService = new UserService();
+            User user = userService.getUserByUserId(event.getUser().getIdLong());
+            if (user == null) {
+                event.reply("Utilisateur non enregistré.").setEphemeral(true).queue();
+                return;
+            }
+
+            List<String> permissions = userService.getPermissionsByRole(user.getRole());
+            if (!permissions.contains("doHelpCommand")) {
+                event.reply("Vous n'avez pas la permission d'effectuer cette commande.").setEphemeral(true).queue();
+                return;
+            }
+
             EmbedBuilder embedBuilder = new EmbedBuilder()
                     .setTitle("Besoin d'aide ?")
                     .setDescription("La commande /help permet d'afficher des boutons pour obtenir plus d'informations.\n\n" +
@@ -60,6 +77,14 @@ public class Help extends ListenerAdapter {
 
     public static void handleButtonInteraction(@NotNull ButtonInteractionEvent event) {
         if (!event.getChannel().getId().equals(channelChatRobotId)) {
+            return;
+        }
+        UserService userService = new UserService();
+        User user = userService.getUserByUserId(event.getUser().getIdLong());
+
+        List<String> permissions = userService.getPermissionsByRole(user.getRole());
+        if (!permissions.contains("doHelpCommand")) {
+            event.reply("Vous n'avez pas la permission d'effectuer cette commande.").setEphemeral(true).queue();
             return;
         }
 

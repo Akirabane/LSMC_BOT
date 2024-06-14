@@ -3,6 +3,7 @@ package slashCommands.lsmcStaff;
 import Services.UserService;
 import annotations.CommandsDescription;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 

@@ -40,4 +40,8 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.getAllUsers();
     }
+
+    public List<String> getPermissionsByRole(String role) {
+        return userRepository.getPermissionsByRole(role);
+    }
 }

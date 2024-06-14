@@ -40,22 +40,23 @@ public class UserRepositoryImpl implements UserRepository {
         return null;
     }
 
-    @Override
-    public User getUserByUserId(long id) {
-        String query = "SELECT * FROM users WHERE user_id = ?";
+    public User getUserByUserId(long userId) {
+        User user = null;
+        String query = "SELECT u.id, u.user_id, u.username, u.grade_rp, r.role_name as role FROM users u " +
+                "LEFT JOIN roles r ON u.role_id = r.id WHERE u.user_id = ?";
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setLong(1, id);
+            statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new User(resultSet.getInt("id"),
-                        resultSet.getString("username"));
+                user = new User(resultSet.getLong("user_id"), resultSet.getString("username"), resultSet.getString("grade_rp"));
+                user.setRole(resultSet.getString("role"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return user;
     }
 
     @Override
@@ -116,5 +117,25 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<String> getPermissionsByRole(String role) {
+        List<String> permissions = new ArrayList<>();
+        String query = "SELECT p.permission_name FROM permissions p " +
+                "JOIN link_role_permissions rp ON p.id = rp.permission_id " +
+                "JOIN roles r ON rp.role_id = r.id WHERE r.role_name = ?";
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, role);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                permissions.add(resultSet.getString("permission_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return permissions;
     }
 }

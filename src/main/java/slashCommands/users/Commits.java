@@ -1,5 +1,7 @@
 package slashCommands.users;
 
+import Entities.User;
+import Services.UserService;
 import Utils.RandomColorGenerator;
 import annotations.CommandsDescription;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -17,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +51,20 @@ public class Commits extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         Color randomColor = RandomColorGenerator.generateRandomColor();
+
+        UserService userService = new UserService();
+        User user = userService.getUserByUserId(event.getUser().getIdLong());
+        if (user == null) {
+            event.reply("Utilisateur non enregistré.").setEphemeral(true).queue();
+            return;
+        }
+
+        List<String> permissions = userService.getPermissionsByRole(user.getRole());
+        if (!permissions.contains("doCommitsCommand")) {
+            event.reply("Vous n'avez pas la permission d'effectuer cette commande.").setEphemeral(true).queue();
+            return;
+        }
+
         if (event.getName().equals("commits")) {
             String branch = event.getOption("branch") != null ? event.getOption("branch").getAsString().toLowerCase() : "main";
             try {

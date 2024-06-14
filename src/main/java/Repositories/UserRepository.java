@@ -11,4 +11,5 @@ public interface UserRepository {
     void updateNameOfEmployee(User user);
     void updateRankOfEmployee(User user);
     void deleteUser(long user_id);
+    List<String> getPermissionsByRole(String role);
 }
