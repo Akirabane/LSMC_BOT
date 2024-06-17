@@ -1,5 +1,6 @@
 package slashCommands.lsmcStaff;
 
+import Entities.User;
 import Services.UserService;
 import annotations.CommandsDescription;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -18,6 +19,20 @@ public class UpdateEmployeeRank extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+
+        UserService userService = new UserService();
+        User user = userService.getUserByUserId(event.getUser().getIdLong());
+        if (user == null) {
+            event.reply("Utilisateur non enregistré.").setEphemeral(true).queue();
+            return;
+        }
+
+        List<String> permissions = userService.getPermissionsByRole(user.getRole());
+        if (!permissions.contains("doUpdateEmployeeRankCommand")) {
+            event.reply("Vous n'avez pas la permission d'effectuer cette commande.").setEphemeral(true).queue();
+            return;
+        }
+
         if (event.getName().equalsIgnoreCase("updateemployeerank")) {
             String targetUserName = event.getOption("user").getAsMember().getEffectiveName();
             long targetUserId = event.getOption("user").getAsMember().getIdLong();
